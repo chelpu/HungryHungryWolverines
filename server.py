@@ -1,6 +1,6 @@
 import os
 import twitter
-from flask import Flask,render_template,send_from_directory
+from flask import Flask,render_template,send_from_directory,request
 import sqlalchemy
 
 app = Flask(__name__)
@@ -9,18 +9,17 @@ app = Flask(__name__)
 def signup():
 	import twilio.twiml
 	resp = twilio.twiml.Response()
-	resp.message('THANKS FOR SIGNING UP, d00d')
+	# body = request.args.get('Body', 'umich free food')
+	body = request.form['Body']
+	print body
+	api = twitter.Api(consumer_key='', consumer_secret='', access_token_key='', access_token_secret='')
+	result = api.GetSearch(term=body, result_type="recent", count=1)
+	resp.message(result[0].text)
 	return str(resp)
 
 @app.route('/chronjob')
 def chronjob():
 	return 'CHRONJOB'	
-
-# this guy handles static files
-@app.route('/<path:filename>')
-def send_pic(filename):
-	print(filename)
-	return send_from_directory('./public/', filename)
 
 if __name__ == '__main__':
 	# Bind to PORT if defined (environment variable on heroku)

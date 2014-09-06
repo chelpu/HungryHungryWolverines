@@ -1,4 +1,4 @@
 Flask==0.10.1
 SQLAlchemy==0.7.9
 twilio==3.6.6
-twitter
+python-twitter
