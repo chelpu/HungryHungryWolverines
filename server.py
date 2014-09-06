@@ -5,7 +5,7 @@ import sqlalchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
-# db = SQLAlchemy(app)
+#db = SQLAlchemy(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def main():
@@ -14,15 +14,14 @@ def main():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-	import twilio.twiml
-	resp = twilio.twiml.Response()
-	# body = request.args.get('Body', 'umich free food')
-	body = request.form['Body']
-	print body
-	api = twitter.Api(consumer_key='', consumer_secret='', access_token_key='', access_token_secret='')
-	result = api.GetSearch(term=body, result_type="recent", count=1)
-	resp.message(result[0].text)
-	return str(resp)
+    import twilio.twiml
+    resp = twilio.twiml.Response()
+    body = request.form.get('Body', 'umich free food')
+    api = twitter.Api(consumer_key='', consumer_secret='', access_token_key='', access_token_secret='')
+    #result = api.GetSearch(term=body, result_type="recent", count=1)
+    #resp.message(result[0].text)
+    resp = body
+    return str(resp)
 
 @app.route('/update')
 def update():
