@@ -1,11 +1,12 @@
 import os
 import twitter
 from flask import Flask,render_template,send_from_directory,request
-from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
-#db = SQLAlchemy(app)
+
+subscribers = {}
+twilio_number = '+17348905282'
+cur_tweet = {'0':''}
 
 @app.route('/', methods=['GET', 'POST'])
 def main():
@@ -14,17 +15,27 @@ def main():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-	import twilio.twiml
-	resp = twilio.twiml.Response()
-	body = request.form.get('Body', 'umich free food')
-	api = twitter.Api(consumer_key=os.environ.get('CONSUMER_KEY'), consumer_secret=os.environ.get('CONSUMER_SECRET'), access_token_key=os.environ.get('ACCESS_TOK_KEY'), access_token_secret=os.environ.get('ACCESS_TOK_SECRET'))
-	result = api.GetSearch(term=body, result_type="recent", count=1)
-	resp.message(result[0].text)
-	return str(resp)
+    import twilio.twiml
+    resp = twilio.twiml.Response()
+    number = request.form.get('From', '')
+    if number not in subscribers:
+    	subscribers[number] = {}
+    body = request.form.get('Body', 'umich free food')
+    return str(resp)
 
 
 @app.route('/update')
 def update():
+    from twilio.rest import TwilioRestClient
+
+    api = twitter.Api(consumer_key=os.environ.get('CONSUMER_KEY'), consumer_secret=os.environ.get('CONSUMER_SECRET'), access_token_key=os.environ.get('ACCESS_TOK_KEY'), access_token_secret=os.environ.get('ACCESS_TOK_SECRET'))
+    result = api.GetSearch(term='umich free food', result_type='recent', count=1)
+    if result[0].text != cur_tweet['0']:
+    	cur_tweet['0'] = result[0].text
+
+    client = TwilioRestClient(account=os.environ.get('TWILIO_SID'), token=os.environ.get('TWILIO_SECRET'))
+    for number in subscribers:
+        client.sms.messages.create(body=cur_tweet['0'], to=number, from_=twilio_number)
     return 'Querying for new food...'
 
 @app.route('/stop')
