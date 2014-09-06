@@ -1,7 +1,7 @@
 import os
 import twitter
 from flask import Flask,render_template,send_from_directory,request
-import sqlalchemy
+from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
