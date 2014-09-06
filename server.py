@@ -4,12 +4,14 @@ from flask import Flask,render_template,send_from_directory
 import sqlalchemy
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+db = SQLAlchemy(app)
 
-@app.route('/signup/')
+@app.route('/signup')
 def signup():
 	return 'SIGNUP'
 
-@app.route('/chronjob/')
+@app.route('/chronjob')
 def chronjob():
 	return 'CHRONJOB'	
 
