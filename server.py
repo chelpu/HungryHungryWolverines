@@ -14,14 +14,14 @@ def main():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    import twilio.twiml
-    resp = twilio.twiml.Response()
-    body = request.form.get('Body', 'umich free food')
-    api = twitter.Api(consumer_key='', consumer_secret='', access_token_key='', access_token_secret='')
-    #result = api.GetSearch(term=body, result_type="recent", count=1)
-    #resp.message(result[0].text)
-    resp = body
-    return str(resp)
+	import twilio.twiml
+	resp = twilio.twiml.Response()
+	body = request.form.get('Body', 'umich free food')
+	api = twitter.Api(consumer_key=os.environ.get('CONSUMER_KEY'), consumer_secret=os.environ.get('CONSUMER_SECRET'), access_token_key=os.environ.get('ACCESS_TOK_KEY'), access_token_secret=os.environ.get('ACCESS_TOK_SECRET'))
+	result = api.GetSearch(term=body, result_type="recent", count=1)
+	resp.message(result[0].text)
+	return str(resp)
+
 
 @app.route('/update')
 def update():
