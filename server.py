@@ -21,6 +21,10 @@ def signup():
     if number not in subscribers:
     	subscribers[number] = {}
     body = request.form.get('Body', 'umich free food')
+    if body.lower() == 'stop':
+    	del subscribers[number]
+    	resp.message('You\'ve successfully unsubscribed! Bye bye.')
+    	return str()
     return str(resp)
 
 
@@ -47,6 +51,7 @@ def update():
 
 @app.route('/stop')
 def stop():
+
     return 'Unsubscribed you from our service, so sad to see you go.'
 
 if __name__ == '__main__':
