@@ -21,7 +21,7 @@ def signup():
     if number not in subscribers:
     	subscribers[number] = {}
     body = request.form.get('Body', 'umich free food')
-    if body.lower() == 'stop':
+    if body.lower() == 'stop' and number in subscribers:
     	del subscribers[number]
     	resp.message('You\'ve successfully unsubscribed! Bye bye.')
     	return str()
