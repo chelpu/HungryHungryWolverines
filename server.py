@@ -1,10 +1,11 @@
 import os
 import twitter
 from flask import Flask,render_template,send_from_directory,request
+from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
-# db = SQLAlchemy(app)
+#db = SQLAlchemy(app)
 
 subscribers = {}
 twilio_number = '+17348905282'
@@ -25,6 +26,7 @@ def signup():
     result = api.GetSearch(term=body, result_type="recent", count=1)
     resp.message(result[0].text)
     return str(resp)
+
 
 @app.route('/update')
 def update():
