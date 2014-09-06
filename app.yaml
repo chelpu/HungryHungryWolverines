@@ -6,5 +6,13 @@ threadsafe: true
 
 handlers:
 - url: /.*
-  script: helloworld.application
-  login: admin
+  script: server.app
+
+libraries:
+# - name: Flask
+#   version: "0.10.1"
+# - name: SQLAlchemy
+#   version: "0.7.9"
+# - name: twilio
+#   version: "3.6.6"
+# - python-twitter
