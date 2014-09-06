@@ -1,5 +1,5 @@
 import os
-import twitter
+import tweepy
 from flask import Flask,render_template,send_from_directory,request
 
 app = Flask(__name__)
@@ -32,8 +32,15 @@ def signup():
 def update():
     from twilio.rest import TwilioRestClient
 
-    api = twitter.Api(consumer_key=os.environ.get('CONSUMER_KEY'), consumer_secret=os.environ.get('CONSUMER_SECRET'), access_token_key=os.environ.get('ACCESS_TOK_KEY'), access_token_secret=os.environ.get('ACCESS_TOK_SECRET'))
-    result = api.GetSearch(term='umich free food', result_type='recent', count=1)
+    auth = tweepy.OAuthHandler(consumer_key=os.environ.get('CONSUMER_KEY'), consumer_secret=os.environ.get('CONSUMER_SECRET'))
+    auth.set_access_token(os.environ.get('ACCESS_TOK_KEY'), os.environ.get('ACCESS_TOK_SECRET'))
+
+    api = tweepy.API(auth)
+
+    query = 'food'
+    count = 1
+    result = [status for status in tweepy.Cursor(api.search, q=query).items(count)]
+    
     if result[0].text != cur_tweet['0']:
     	cur_tweet['0'] = result[0].text
 
