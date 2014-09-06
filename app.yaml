@@ -6,4 +6,9 @@ threadsafe: true
 
 handlers:
 - url: /.*
-  script: helloworld.application
+  script: server.app
+
+libraries:
+#fix for import twitter error
+  - name: ssl
+    version: latest

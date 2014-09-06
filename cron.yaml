@@ -1,0 +1,4 @@
+cron:
+- description: Query for latest food updates
+  url: /update
+  schedule: every 5 mins

@@ -1,0 +1,5 @@
+{
+  "template_name" : "Hungry Hungry Wolverines",
+  "template_description" : "MHacks IV app to help you find free food at UMich.",
+  "open_files": ["server.py"]
+}
