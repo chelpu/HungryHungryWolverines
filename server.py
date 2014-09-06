@@ -43,6 +43,8 @@ def update():
 
     if result[0].text != cur_tweet['0']:
     	cur_tweet['0'] = result[0].text
+    else:
+        return ''
 
     client = TwilioRestClient(account=os.environ.get('TWILIO_SID'), token=os.environ.get('TWILIO_SECRET'))
     for number in subscribers:
