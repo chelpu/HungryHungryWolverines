@@ -1,33 +1,17 @@
 import os
+import twitter
 from flask import Flask,render_template,send_from_directory
-from flask.ext.sqlalchemy import SQLAlchemy
-import pyjade
+import sqlalchemy
 
 app = Flask(__name__)
-# use the jade template engine
-app.jinja_env.add_extension('pyjade.ext.jinja.PyJadeExtension')
-
-
-@app.route('/')
-def index():
-	obj = {
-		"title": "Hungry Hungry Wolverines",
-	};
-	return render_template('index.jade', **obj)
 
 @app.route('/signup/')
 def signup():
-	obj = {
-		"text": "You found the signup page"
-	};
-	return render_template('index.jade', **obj)	
+	return 'SIGNUP'
 
 @app.route('/chronjob/')
 def chronjob():
-	obj = {
-		"text": "Go away, you don't belong here"
-	};
-	return render_template('index.jade', **obj)		
+	return 'CHRONJOB'	
 
 # this guy handles static files
 @app.route('/<path:filename>')
