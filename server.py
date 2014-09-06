@@ -37,11 +37,16 @@ def update():
 
     api = tweepy.API(auth)
 
-    query = 'umich free food'
+    query = 'free food'
     count = 1
-    result = [status for status in tweepy.Cursor(api.search, q=query, geocode="42.2814, 83.7483, 5mi", result_type='recent').items(count)]
+    result = []
+    result = [status for status in tweepy.Cursor(api.search, q=query, geocode="42.2814, -83.7483, 10mi", result_type='recent').items(count)]
 
-    if result[0].text != cur_tweet['0']:
+    if not result:
+        query += ' umich'
+        result = [status for status in tweepy.Cursor(api.search, q=query, result_type='recent').items(count)]
+
+    if result and result[0].text != cur_tweet['0']:
     	cur_tweet['0'] = result[0].text
     else:
         return ''
