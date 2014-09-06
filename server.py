@@ -33,10 +33,10 @@ def update():
 
     api = tweepy.API(auth)
 
-    query = 'food'
+    query = 'umich free food'
     count = 1
-    result = [status for status in tweepy.Cursor(api.search, q=query).items(count)]
-    
+    result = [status for status in tweepy.Cursor(api.search, q=query, result_type='recent').items(count)]
+
     if result[0].text != cur_tweet['0']:
     	cur_tweet['0'] = result[0].text
 
