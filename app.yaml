@@ -9,10 +9,6 @@ handlers:
   script: server.app
 
 libraries:
-# - name: Flask
-#   version: "0.10.1"
-# - name: SQLAlchemy
-#   version: "0.7.9"
-# - name: twilio
-#   version: "3.6.6"
-# - python-twitter
+#fix for import twitter error
+  - name: ssl
+    version: latest
