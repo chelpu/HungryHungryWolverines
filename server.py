@@ -7,9 +7,13 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 db = SQLAlchemy(app)
 
-@app.route('/signup')
+
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
-	return 'SIGNUP'
+	import twilio.twiml
+	resp = twilio.twiml.Response()
+	resp.message('THANKS FOR SIGNING UP, d00d')
+	return str(resp)
 
 @app.route('/chronjob')
 def chronjob():
@@ -23,7 +27,7 @@ def send_pic(filename):
 
 if __name__ == '__main__':
 	# Bind to PORT if defined (environment variable on heroku)
-	port = int(os.environ.get('PORT', 3000))
-	app.run(host='0.0.0.0', port=port, debug=True)
+	port = int(os.environ.get('PORT', 5000))
+	app.run(host='127.0.0.1', port=port, debug=True)
 
 
