@@ -3,7 +3,6 @@ import tweepy
 from flask import Flask,render_template,send_from_directory,request
 
 app = Flask(__name__)
-
 subscribers = {}
 twilio_number = '+17348905282'
 cur_tweet = {'0':''}
@@ -11,7 +10,6 @@ cur_tweet = {'0':''}
 @app.route('/', methods=['GET', 'POST'])
 def main():
     return 'We know you\'re a Hungry Hungry Wolverine! Text "signup" to (XXX) XXX - XXXX to nab the latest deets about free food on campus. Powered by Twitter, Twilio, Alchemy and the Ms New Booty under the sea.'
-
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -27,7 +25,6 @@ def signup():
     	return str()
     return str(resp)
 
-
 @app.route('/update')
 def update():
     from twilio.rest import TwilioRestClient
@@ -37,14 +34,10 @@ def update():
 
     api = tweepy.API(auth)
 
-    query = 'free food'
+    query = 'umich free food'
     count = 1
     result = []
-    result = [status for status in tweepy.Cursor(api.search, q=query, geocode="42.2814, -83.7483, 10mi", result_type='recent').items(count)]
-
-    if not result:
-        query += ' umich'
-        result = [status for status in tweepy.Cursor(api.search, q=query, result_type='recent').items(count)]
+    result = [status for status in tweepy.Cursor(api.search, q=query, result_type='recent').items(count)]
 
     if result and result[0].text != cur_tweet['0']:
     	cur_tweet['0'] = result[0].text
@@ -56,14 +49,7 @@ def update():
         client.sms.messages.create(body=cur_tweet['0'], to=number, from_=twilio_number)
     return 'Querying for new food...'
 
-@app.route('/stop')
-def stop():
-
-    return 'Unsubscribed you from our service, so sad to see you go.'
-
 if __name__ == '__main__':
     # Bind to PORT if defined (environment variable on heroku)
     port = int(os.environ.get('PORT', 5000))
     app.run(host='127.0.0.1', port=port, debug=True)
-
-
